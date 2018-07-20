@@ -15,7 +15,17 @@
     <java.version>1.8</java.version>
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
+    <system.environment>local</system.environment>
   </properties>
+
+  <profiles>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <system.environment>prod</system.environment>
+      </properties>
+    </profile>
+  </profiles>
 
   <dependencies>
     <dependency>
@@ -110,11 +120,19 @@
         <version>3.1.0</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
+          <archiveClasses>true</archiveClasses>
+          <webResources>
+            <!-- in order to interpolate version from pom into appengine-web.xml -->
+            <resource>
+              <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+              <filtering>true</filtering>
+              <targetPath>WEB-INF</targetPath>
+            </resource>
+          </webResources>
         </configuration>
       </plugin>
 
     </plugins>
   </build>
-
 
 </project>
